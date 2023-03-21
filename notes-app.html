@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiNotes - App</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Imprima&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/app.css">
+
+    <script src="js/app.js" defer></script>
+    <script src="js/create-backup.js" defer></script>
+    <script src="js/restore-backup.js" defer></script>
+</head> 
+<body>
+    
+    <main id="top"> 
+        <h1 onclick="top.location ='notes-app.html'">DigiNotes</h1><img src="../../AppIcon.png" id="logo">
+        <section id="data-input">
+            <form id="post">
+                <textarea name="notes" id="note" cols="30" rows="10" placeholder="Type something..." required></textarea>
+                
+                <label for="img-upload" class="custom-file-upload">
+                    <input id="img-upload" name="files[]" type="file" accept=".jpg, .jpeg, .png, .gif, .svg">
+                    <input type="text" name="caption" id="caption" placeholder="Caption...">
+                    <span></span>
+                </label>
+                
+
+                <!-- <input type="submit" value="Post it!"> -->
+            </form>
+            <button id="post-it">Post it!</button>
+
+        </section>
+
+        <section id="posts">
+            <!-- <div>
+                <span>2023-01-06</span>
+                <p>Message</p>
+                <img class="posts" src="https://via.placeholder.com/300" alt="">
+            </div> -->
+        </section>
+
+    </main>
+    <footer>
+        <a href="posts.html">See ALL Posts</a><br>
+        <a href="searches.html">Search stuff</a><br>
+        //////////////////////////<br>
+        <a href="#" onclick="backUpDB()">Create back-up</a><br>
+        <input type="file" name="back-up" id="back-up"><a href="#" onclick="if(confirm('Are you sure?')) { restoreDB() }">Restore back-up</a><br>
+        //////////////////////////<br>
+        <br>
+        Copyright &copy; 2023 - DigiNotes<br>
+        <br>
+        <p><a id="scroll-up" href="#top">Scroll up &uparrow;</a></p>
+
+    </footer>
+</body>
+</html>

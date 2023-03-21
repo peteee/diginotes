@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiNotes - App</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Imprima&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/app.css">
+
+    <!-- <script src="js/posts.js" defer></script> -->
+
+</head> 
+<body>
+    
+    <main> 
+        <h1 onclick="top.location ='notes-app.html'">DigiNotes</h1><img src="../../AppIcon.png" id="logo">
+
+        <section id="posts"></section>
+
+
+        <script>
+            //Grab URL & GET params
+            var url_string = top.location.href; 
+            var url = new URL(url_string);
+            var pageId = url.searchParams.get("id");
+            console.log(pageId);
+
+
+            // Posts...
+            const postsContainer = document.querySelector('#posts');
+
+            //load specific post based on id
+            let db;
+            const request = window.indexedDB.open("DigiNotesDB");
+            let objectStore; 
+            let postsObjectStore;
+
+            request.onerror = (event) => {
+                console.error("Why didn't you allow my web app to use IndexedDB?!");
+            };
+            request.onsuccess = (event) => {
+                db = event.target.result;
+                console.log(db);
+                
+                //insert page ID
+                db.transaction("posts").objectStore("posts").get(parseInt(pageId)).onsuccess = (event) => {
+                
+                    var myPostsDiv = document.createElement("div")
+
+                    if(typeof event.target.result.date !== 'undefined'){
+                        var myDate = document.createElement("p");
+                        myDate.classList.add("date-head");
+                        myDate.append(event.target.result.date);
+                        myPostsDiv.append(myDate);
+                    }
+
+                    if(typeof event.target.result.image !== 'undefined'){
+                        // helper Image object
+                        var image = new Image();
+                        image.src = event.target.result.image;
+                        image.setAttribute("data-id", event.target.result.id);
+                    
+                        // adding image to posts section
+                        myPostsDiv.append(image);
+                    }
+                    if(typeof event.target.result.caption !== 'undefined' 
+                    && event.target.result.caption != "" ) {
+                        var myCaption = document.createElement("span");
+                        myCaption.append(event.target.result.caption);
+                        myPostsDiv.append(myCaption);
+                    }
+                    myPostsDiv.append(event.target.result.text);
+                    postsContainer.prepend(myPostsDiv);
+                };
+            }
+
+
+        </script>
+
+    </main>
+    <footer>Copyright &copy; 2023 - DigiNotes</footer>
+</body>
+</html>
